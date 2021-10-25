@@ -1,11 +1,10 @@
 import React, {Component} from "react"
-import './App.css'
-import {getWeb3} from "./getWeb3"
-import map from "./artifacts/deployments/map.json"
-import {getEthereum} from "./getEthereum"
-import Header from "./components/Header.js"
+import '../App.css'
+import {getWeb3} from "../getWeb3"
+import map from "../artifacts/deployments/map.json"
+import {getEthereum} from "../getEthereum"
 
-class App extends Component {
+class Main extends Component {
 
     state = {
         web3: null,
@@ -16,7 +15,7 @@ class App extends Component {
         vyperInput: 0,
         solidityStorage: null,
         solidityValue: 0,
-        solidityInput: '',
+        solidityInput: 0,
     }
 
     componentDidMount = async () => {
@@ -98,9 +97,9 @@ class App extends Component {
         // Load the artifact with the specified address
         let contractArtifact
         try {
-            contractArtifact = await import(`./artifacts/deployments/${chain}/${address}.json`)
+            contractArtifact = await import(`../artifacts/deployments/${chain}/${address}.json`)
         } catch (e) {
-            console.log(`Failed to load contract artifact "./artifacts/deployments/${chain}/${address}.json"`)
+            console.log(`Failed to load contract artifact "../artifacts/deployments/${chain}/${address}.json"`)
             return undefined
         }
 
@@ -142,7 +141,7 @@ class App extends Component {
     render() {
         const {
             web3, accounts, chainid,
-            vyperStorage,
+            vyperStorage, vyperValue, vyperInput,
             solidityStorage, solidityValue, solidityInput
         } = this.state
 
@@ -158,17 +157,19 @@ class App extends Component {
         if (!vyperStorage || !solidityStorage) {
             return <div>Could not find a deployed contract. Check console for details.</div>
         }
-        console.log(accounts);
 
         const isAccountsUnlocked = accounts ? accounts.length > 0 : false
 
-        return (<div className="App">
-            <Header />
-            <h1>Convert Your Social Media Posts into NFT.</h1>
-            {/* <p>
+        return (
+
+            
+        
+        <div className="App">
+            <h1>Your Brownie Mix is installed and ready.</h1>
+            <p>
                 If your contracts compiled and deployed successfully, you can see the current
                 storage values below.
-            </p> */}
+            </p>
             {
                 !isAccountsUnlocked ?
                     <p><strong>Connect with Metamask and refresh the page to
@@ -176,7 +177,7 @@ class App extends Component {
                     </p>
                     : null
             }
-            {/* <h2>Vyper Storage Contract</h2>
+            <h2>Vyper Storage Contract</h2>
 
             <div>The stored value is: {vyperValue}</div>
             <br/>
@@ -193,14 +194,14 @@ class App extends Component {
                     <br/>
                     <button type="submit" disabled={!isAccountsUnlocked}>Submit</button>
                 </div>
-            </form> */}
+            </form>
 
-            {/* <h2>Solidity Storage Contract</h2> */}
-            {/* <div>The stored value is: {solidityValue}</div> */}
+            <h2>Solidity Storage Contract</h2>
+            <div>The stored value is: {solidityValue}</div>
             <br/>
             <form onSubmit={(e) => this.changeSolidity(e)}>
                 <div>
-                    <label>Submit Your Post Link: </label>
+                    <label>Change the value to: </label>
                     <br/>
                     <input
                         name="solidityInput"
@@ -217,4 +218,4 @@ class App extends Component {
     }
 }
 
-export default App
+export default Main
