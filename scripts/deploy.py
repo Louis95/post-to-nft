@@ -14,3 +14,4 @@ def main():
         owner = accounts.load("main")
         SolidityStorage.deploy({'from':owner})
         VyperStorage.deploy({'from':owner})
+
